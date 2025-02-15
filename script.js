@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             crearTarea(nuevaTarea);
             guardarTarea(nuevaTarea);
             inputTarea.value = '';
-            inputTarea.placeholder = 'Otra tarea';
+            inputTarea.placeholder = 'Ingrese producto';
         } else {
             alert('Por favor, ingresa un producto válido.');
         }
