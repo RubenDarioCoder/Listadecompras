@@ -1,94 +1,96 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const inputTarea = document.getElementById('tarea');
-    const botonAgregarTarea = document.getElementById('botonAgregarTarea');
-    const listaTareas = document.getElementById('listaTareas');
+    const inputProducto = document.getElementById('producto');
+    const botonAgregarProducto = document.getElementById('botonAgregarProducto');
+    const listaProductos = document.getElementById('listaProductos');
 
-    function cargarTareas() {
-        const tareasGuardadas = localStorage.getItem('tareas');
-        if (tareasGuardadas) {
-            tareasGuardadas.split(',').forEach(tarea => {
-                const [tareaTexto, marcada] = tarea.split('|');
-                crearTarea(tareaTexto, marcada === 'true');
+    function cargarProducto() {
+        const productosGuardados = localStorage.getItem('productos');
+        if (productosGuardados) {
+            productosGuardados.split(',').forEach(producto => {
+                const [productoTexto, marcado] = producto.split('|');
+                crearProducto(productoTexto, marcado === 'true');
             });
         }
     }
 
-    function agregarTarea() {
-        const nuevaTarea = inputTarea.value.trim();
-        if (nuevaTarea) {
-            crearTarea(nuevaTarea);
-            guardarTarea(nuevaTarea);
-            inputTarea.value = '';
-            inputTarea.placeholder = 'Ingrese producto';
+    function agregarProducto() {
+        const nuevoProducto = inputProducto.value.trim();
+        if (nuevoProducto) {
+            crearProducto(nuevoProducto);
+            guardarProducto(nuevoProducto);
+            inputProducto.value = '';
+            inputProducto.placeholder = 'Otro producto';
         } else {
             alert('Por favor, ingresa un producto válido.');
         }
+        inputProducto.focus();
     }
 
-    function crearTarea(tareaTexto, marcada = false) {
-        const tareaCreada = document.createElement('li');
-        tareaCreada.textContent = tareaTexto;
-        tareaCreada.classList.add('tareaCreada');
+    function crearProducto(productoTexto, marcado = false) {
+        const productoCreado = document.createElement('li');
+        productoCreado.textContent = productoTexto;
+        productoCreado.classList.add('productoCreado');
 
         const botonMarcar = document.createElement('button');
         botonMarcar.textContent = '✓';
-        botonMarcar.classList.add(marcada ? 'botonMarcado' : 'botonDesmarcado');
+        botonMarcar.classList.add(marcado ? 'botonMarcado' : 'botonDesmarcado');
         botonMarcar.addEventListener('click', () => {
             botonMarcar.classList.toggle('botonMarcado');
             botonMarcar.classList.toggle('botonDesmarcado');
-            actualizarTareaEnLocalStorage(tareaTexto, botonMarcar.classList.contains('botonMarcado'));
+            actualizarProductoEnLocalStorage(productoTexto, botonMarcar.classList.contains('botonMarcado'));
         });
 
         const botonEliminar = document.createElement('button');
         botonEliminar.textContent = 'X';
         botonEliminar.classList.add('botonEliminar');
         botonEliminar.addEventListener('click', () => {
-            tareaCreada.remove();
-            eliminarTareaDeLocalStorage(tareaTexto);
+            productoCreado.remove();
+            eliminarProductoDeLocalStorage(productoTexto);
         });
 
         const divBotones = document.createElement('div');
         divBotones.append(botonMarcar, botonEliminar);
         
-        tareaCreada.appendChild(divBotones);
-        listaTareas.appendChild(tareaCreada);
+        productoCreado.appendChild(divBotones);
+        listaProductos.appendChild(productoCreado);
     }
 
-    function guardarTarea(tareaTexto) {
-        const tareasGuardadas = localStorage.getItem('tareas');
-        const listaTareas = tareasGuardadas ? tareasGuardadas.split(',') : [];
-        listaTareas.push(`${tareaTexto}|false`);
-        localStorage.setItem('tareas', listaTareas.join(','));
+    function guardarProducto(productoTexto) {
+        const productosGuardados = localStorage.getItem('productos');
+        const listaProductos = productosGuardados ? productosGuardados.split(',') : [];
+        listaProductos.push(`${productoTexto}|false`);
+        localStorage.setItem('productos', listaProductos.join(','));
+        
     }
 
-    function actualizarTareaEnLocalStorage(tareaTexto, marcada) {
-        const tareasGuardadas = localStorage.getItem('tareas');
-        if (tareasGuardadas) {
-            const listaTareas = tareasGuardadas.split(',').map(tarea => {
-                const [texto, estado] = tarea.split('|');
-                return texto === tareaTexto ? `${texto}|${marcada}` : tarea;
+    function actualizarProductoEnLocalStorage(productoTexto, marcado) {
+        const productosGuardados = localStorage.getItem('productos');
+        if (productosGuardados) {
+            const listaProductos = productosGuardados.split(',').map(producto => {
+                const [texto, estado] = producto.split('|');
+                return texto === productoTexto ? `${texto}|${marcado}` : producto;
             });
-            localStorage.setItem('tareas', listaTareas.join(','));
-        }
-    }
+            localStorage.setItem('productos', listaProductos.join(','));
+        };
+    };
 
-    function eliminarTareaDeLocalStorage(tareaTexto) {
-        const tareasGuardadas = localStorage.getItem('tareas');
-        if (tareasGuardadas) {
-            const listaTareas = tareasGuardadas.split(',').filter(tarea => {
-                const [texto] = tarea.split('|');
-                return texto !== tareaTexto;
+    function eliminarProductoDeLocalStorage(productoTexto) {
+        const productosGuardados = localStorage.getItem('productos');
+        if (productosGuardados) {
+            const listaProductos = productosGuardados.split(',').filter(producto => {
+                const [texto] = producto.split('|');
+                return texto !== productoTexto;
             });
-            localStorage.setItem('tareas', listaTareas.join(','));
-        }
-    }
+            localStorage.setItem('productos', listaProductos.join(','));
+        };
+    };
 
-    cargarTareas();
-    inputTarea.focus();
-    botonAgregarTarea.addEventListener('click', agregarTarea);
-    inputTarea.addEventListener('keypress', (e) => {
+    cargarProducto();
+    inputProducto.focus();
+    botonAgregarProducto.addEventListener('click', agregarProducto);
+    inputProducto.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-            agregarTarea();
+            agregarProducto();
         }
     });
 });
