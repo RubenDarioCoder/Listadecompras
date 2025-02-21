@@ -55,7 +55,7 @@ body {
  #listaProductos {
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin-top: 1rem;
  }
  
  .productoCreado {
