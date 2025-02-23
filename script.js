@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const listaProductos = document.getElementById('listaProductos');
 
     function cargarProducto() {
-        const productosGuardados = localStorage.getItem('productos');
+        const productosGuardados = localStorage.getItem('productos_listadecompras'); // Cambiado
         if (productosGuardados) {
             productosGuardados.split(',').forEach(producto => {
                 const [productoTexto, marcado] = producto.split('|');
@@ -56,32 +56,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function guardarProducto(productoTexto) {
-        const productosGuardados = localStorage.getItem('productos');
+        const productosGuardados = localStorage.getItem('productos_listadecompras'); // Cambiado
         const listaProductos = productosGuardados ? productosGuardados.split(',') : [];
         listaProductos.push(`${productoTexto}|false`);
-        localStorage.setItem('productos', listaProductos.join(','));
-        
+        localStorage.setItem('productos_listadecompras', listaProductos.join(',')); // Cambiado
     }
 
     function actualizarProductoEnLocalStorage(productoTexto, marcado) {
-        const productosGuardados = localStorage.getItem('productos');
+        const productosGuardados = localStorage.getItem('productos_listadecompras'); // Cambiado
         if (productosGuardados) {
             const listaProductos = productosGuardados.split(',').map(producto => {
                 const [texto, estado] = producto.split('|');
                 return texto === productoTexto ? `${texto}|${marcado}` : producto;
             });
-            localStorage.setItem('productos', listaProductos.join(','));
+            localStorage.setItem('productos_listadecompras', listaProductos.join(',')); // Cambiado
         };
     };
 
     function eliminarProductoDeLocalStorage(productoTexto) {
-        const productosGuardados = localStorage.getItem('productos');
+        const productosGuardados = localStorage.getItem('productos_listadecompras'); // Cambiado
         if (productosGuardados) {
             const listaProductos = productosGuardados.split(',').filter(producto => {
                 const [texto] = producto.split('|');
                 return texto !== productoTexto;
             });
-            localStorage.setItem('productos', listaProductos.join(','));
+            localStorage.setItem('productos_listadecompras', listaProductos.join(',')); // Cambiado
         };
     };
 
